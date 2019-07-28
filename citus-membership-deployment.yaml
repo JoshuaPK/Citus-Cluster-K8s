@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: citus-master-deployment
+  namespace: citus-cluster
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: citus-master-app
+  template:
+    metadata:
+      labels:
+        app: citus-master-app
+    spec:
+      containers:
+      - name: citus_master
+        image: docker.io/citusdata/citus
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5432
+

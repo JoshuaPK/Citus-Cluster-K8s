@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: citus-worker-deployment
+  namespace: citus-cluster
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: citus-worker-app
+  template:
+    metadata:
+      labels:
+        app: citus-worker-app
+    spec:
+      containers:
+      - name: citus_worker
+        image: docker.io/citusdata/citus
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 5432
+
