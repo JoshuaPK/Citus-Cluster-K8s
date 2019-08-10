@@ -14,9 +14,11 @@ spec:
         app: citus-master-app
     spec:
       containers:
-      - name: citus_master
-        image: docker.io/citusdata/citus
+      - name: citus-master
+        image: kubemaster:443/kubeuser/citus-image:v1
         imagePullPolicy: Always
         ports:
         - containerPort: 5432
+      imagePullSecrets:
+      - name: regcred
 

@@ -14,9 +14,11 @@ spec:
         app: citus-worker-app
     spec:
       containers:
-      - name: citus_worker
-        image: docker.io/citusdata/citus
+      - name: citus-worker
+        image: kubemaster:443/kubeuser/citus-image:v1
         imagePullPolicy: Always
         ports:
         - containerPort: 5432
+      imagePullSecrets:
+        - name: regcred
 
