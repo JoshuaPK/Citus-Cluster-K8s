@@ -16,6 +16,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        ca-certificates \
        curl \
+       lua \
     && curl -s https://install.citusdata.com/community/deb.sh | bash \
     && apt-get install -y postgresql-$PG_MAJOR-citus-8.3=$CITUS_VERSION \
                           postgresql-$PG_MAJOR-hll=2.12.citus-1 \

@@ -8,6 +8,7 @@ services:
     labels: ['com.citusdata.role=Master']
   worker:
     image: 'citusdata/citus:8.3.0'
+    ports: ['5432']
     labels: ['com.citusdata.role=Worker']
     depends_on: { manager: { condition: service_healthy } }
   manager:
