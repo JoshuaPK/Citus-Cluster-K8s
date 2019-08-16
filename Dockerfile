@@ -16,19 +16,21 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        ca-certificates \
        curl \
-       lua \
     && curl -s https://install.citusdata.com/community/deb.sh | bash \
     && apt-get install -y postgresql-$PG_MAJOR-citus-8.3=$CITUS_VERSION \
                           postgresql-$PG_MAJOR-hll=2.12.citus-1 \
                           postgresql-$PG_MAJOR-topn=2.2.0 \
     && apt-get purge -y --auto-remove curl \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
+    && mkdir /etc/citus/cluster-nodes-data \
+    && touch /etc/citus/cluster-nodes-data/pg_worker_list.conf \
+    && ln -s /etc/citus/pg_worker_list.conf /etc/citus/cluster-nodes-data/pg_worker_list.conf
 
 # add citus to default PostgreSQL config
 RUN echo "shared_preload_libraries='citus'" >> /usr/share/postgresql/postgresql.conf.sample
 
 # add scripts to run after initdb
-COPY 000-configure-stats.sh 001-create-citus-extension.sql /docker-entrypoint-initdb.d/
+COPY 000-configure-stats.sh 001-create-citus-extension.sql 002-register-worker.sh /docker-entrypoint-initdb.d/
 
 # add health check script
 COPY pg_healthcheck /
