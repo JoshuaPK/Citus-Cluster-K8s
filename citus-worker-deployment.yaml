@@ -5,6 +5,11 @@ metadata:
   namespace: citus-cluster
 spec:
   replicas: 3
+  volumes:                                                                                                                                                                                                                                 
+    - name: pg-workers-conf-vol                                                                                                                                                                                                            
+      nfs:                                                                                                                                                                                                                                 
+        server: kubemaster                                                                                                                                                                                                                 
+        path: /srv/citus-cluster/cluster-nodes-data 
   selector:
     matchLabels:
       app: citus-worker-app
@@ -19,6 +24,16 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 5432
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "echo Hello World"]
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "shutdown_script.sh"]
       imagePullSecrets:
         - name: regcred
+      volumeMounts:                                                                                                                                                                                                                      
+        - name: pg-workers-conf-vol                                                                                                                                                                                                      
+          mountPath: /etc/citus/cluster-nodes-data
 
