@@ -4,12 +4,19 @@
 set -euo pipefail
 IFS=$'\n\t'
 
-# Need to insert here: if this is the master, don't do this
+# Only do this if we are a worker
 
-if [[ $HOSTNAME =~ "worker" ]]
+echo Registering Node $HOSTNAME
+
+if [[ $HOSTNAME =~ "worker-blah" ]]
 then
-  flock /etc/citus/pg_worker_list.conf
-  echo $HOSTNAME >> /etc/citus/pg_worker_list.conf
-  flock -u /etc/citus/pg_worker_list.conf
+  if [ -f /etc/citus/cluster-nodes-data/pg_worker_list.conf ]
+  then
+    flock /etc/citus/cluster-nodes-data/pg_worker_list.conf
+    echo $HOSTNAME >> /etc/citus/cluster-nodes-data/pg_worker_list.conf
+    flock -u /etc/citus/cluster-nodes-data/pg_worker_list.conf
+  else
+    echo WARNING: pg_worker_list_conf file not found, exiting!
+  fi
 fi
 
