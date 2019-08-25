@@ -5,11 +5,6 @@ metadata:
   namespace: citus-cluster
 spec:
   replicas: 1
-  volumes:
-    - name: pg-workers-conf-vol
-      nfs:
-        server: kubemaster
-        path: /srv/citus-cluster/cluster-nodes-data
   selector:
     matchLabels:
       app: citus-master-app
@@ -18,6 +13,11 @@ spec:
       labels:
         app: citus-master-app
     spec:
+      volumes:
+        - name: pg-workers-conf-vol
+          nfs:
+            server: kubemaster
+            path: /srv/citus-cluster/cluster-nodes-data
       containers:
       - name: citus-master
         image: kubemaster:443/kubeuser/citus-image:v2
@@ -27,8 +27,8 @@ spec:
         volumeMounts:
           - name: pg-workers-conf-vol
             mountPath: /etc/citus/cluster-nodes-data
-      - name: citus-watcher
-        image: kubemaster:443/kubeuser/citus-watcher:v1
+      - name: citus-filewatcher
+        image: kubemaster:443/kubeuser/citus-filewatcher-image:v2
         imagePullPolicy: Always
         volumeMounts:
           - name: pg-workers-conf-vol

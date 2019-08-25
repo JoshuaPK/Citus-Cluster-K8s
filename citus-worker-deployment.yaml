@@ -5,11 +5,6 @@ metadata:
   namespace: citus-cluster
 spec:
   replicas: 3
-  volumes:                                                                                                                                                                                                                                 
-    - name: pg-workers-conf-vol                                                                                                                                                                                                            
-      nfs:                                                                                                                                                                                                                                 
-        server: kubemaster                                                                                                                                                                                                                 
-        path: /srv/citus-cluster/cluster-nodes-data 
   selector:
     matchLabels:
       app: citus-worker-app
@@ -18,10 +13,17 @@ spec:
       labels:
         app: citus-worker-app
     spec:
+      volumes:
+        - name: cluster-config-volume-storage
+          persistentVolumeClaim:
+            claimName: cluster-config-volume-claim
       containers:
       - name: citus-worker
-        image: kubemaster:443/kubeuser/citus-image:v1
+        image: kubemaster:443/kubeuser/citus-image:latest
         imagePullPolicy: Always
+        volumeMounts:
+          - name: cluster-config-volume-storage
+            mountPath: /etc/citus/cluster-nodes-data
         ports:
         - containerPort: 5432
         lifecycle:
@@ -33,7 +35,4 @@ spec:
               command: ["/bin/sh", "-c", "shutdown_script.sh"]
       imagePullSecrets:
         - name: regcred
-      volumeMounts:                                                                                                                                                                                                                      
-        - name: pg-workers-conf-vol                                                                                                                                                                                                      
-          mountPath: /etc/citus/cluster-nodes-data
 
