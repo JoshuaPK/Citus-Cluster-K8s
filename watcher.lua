@@ -6,7 +6,7 @@ local inotify = require 'inotify'
 local handle = inotify.init()                                                                                                                                   
                                                                                                                                                                 
 local psql_command = "psql -h localhost -c 'SELECT master_initialize_node_metadata();'"                                                                                                                       
-local file_to_watch = "/etc/citus/citus-nodes-data/pg_worker_list.conf"                                                                                                          
+local file_to_watch = "/etc/citus/cluster-nodes-data/pg_worker_list.conf"                                                                                                          
                                                                                                                                                                 
 local wd = handle:addwatch(file_to_watch, inotify.IN_MODIFY)                                                                                                    
 

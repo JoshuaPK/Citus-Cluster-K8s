@@ -15,6 +15,10 @@ ENV CITUS_VERSION ${VERSION}.citus-1
 
 RUN yum -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm \
     && yum -y install postgresql11 \
+    && yum -y install epel-release \
+    && yum -y install mosquitto \
+    && yum -y install python-paho-mqtt \
+    && yum -y install python-psycopg2 \
     && mkdir /etc/citus \
     && mkdir /etc/citus/cluster-nodes-data
 
