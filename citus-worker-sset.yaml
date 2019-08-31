@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: citus-worker-sset
+  namespace: citus-cluster
+spec:
+  selector:
+    matchLabels:
+      app: citus-worker-app
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: citus-worker-app
+    spec:
+      volumes:
+        - name: cluster-config-volume-storage
+          persistentVolumeClaim:
+            claimName: cluster-config-volume-claim
+      containers:
+      - name: citus-worker
+        image: kubemaster:443/kubeuser/citus-image:latest
+        imagePullPolicy: Always
+        ports:
+          containerPort: 5432
+        lifecycle:
+          postStart:
+            exec:
+              command: ["/bin/sh", "-c", "echo Hello World"]
+          preStop:
+            exec:
+              command: ["/bin/sh", "-c", "shutdown_script.sh"]
+        volumeMounts:
+        - name: cluster-config-volume-storage
+          mountPath: /etc/citus/cluster-nodes-data
+      imagePullSecrets:
+        - name: regcred
+

@@ -1,13 +1,14 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
-  name: citus-master-deployment
+  name: citus-master-sset
   namespace: citus-cluster
 spec:
-  replicas: 1
+  serviceName: citus-master
   selector:
     matchLabels:
       app: citus-master-app
+  replicas: 1 
   template:
     metadata:
       labels:
@@ -22,16 +23,18 @@ spec:
         image: kubemaster:443/kubeuser/citus-image:latest
         imagePullPolicy: Always
         ports:
-        - containerPort: 5432
+          containerPort: 5432  
         volumeMounts:
-          - name: cluster-config-volume-storage
-            mountPath: /etc/citus/cluster-nodes-data
+        - name: cluster-config-volume-storage
+          mountPath: /etc/citus/cluster-nodes-data
       - name: citus-k8s-member-manager
         image: kubemaster:443/kubeuser/citus-k8s-member-manager-image:latest
         imagePullPolicy: Always
+        ports:
+          containerPort: 1883
         volumeMounts:
           - name: cluster-config-volume-storage
             mountPath: /etc/citus/cluster-nodes-data
       imagePullSecrets:
-      - name: regcred
+        - name: regcred
 
