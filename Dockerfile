@@ -19,11 +19,13 @@ RUN yum -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x
     && yum -y install mosquitto \
     && yum -y install python-paho-mqtt \
     && yum -y install python-psycopg2 \
+    && yum -y install bind-utils \
+    && yum -y install telnet \
+    && yum -y install traceroute \
     && mkdir /etc/citus \
     && mkdir /etc/citus/cluster-nodes-data
 
-COPY inotify.so /usr/lib64/lua/5.1/
-COPY watcher.lua /usr/lib64/lua/
+COPY bootup.sh watcher.py /usr/local/bin/
 
-ENTRYPOINT /usr/lib64/lua/watcher.lua
+ENTRYPOINT /usr/local/bin/bootup.sh
 
