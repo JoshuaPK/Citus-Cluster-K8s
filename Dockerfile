@@ -16,8 +16,8 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
        ca-certificates \
        curl \
-       lua5.3 \
-       oidentd \
+       dnsutils \
+       mosquitto-clients \
     && curl -s https://install.citusdata.com/community/deb.sh | bash \
     && apt-get install -y postgresql-$PG_MAJOR-citus-8.3=$CITUS_VERSION \
                           postgresql-$PG_MAJOR-hll=2.12.citus-1 \
@@ -34,12 +34,10 @@ RUN echo "shared_preload_libraries='citus'" >> /usr/share/postgresql/postgresql.
 
 # add scripts to run after initdb
 #COPY 000-configure-stats.sh 001-create-citus-extension.sql 002-register-worker.sh /docker-entrypoint-initdb.d/
-COPY 000-configure-stats.sh 001-create-citus-extension.sql /docker-entrypoint-initdb.d/
-COPY posix/ /usr/lib/x86_64-linux-gnu/lua/5.3/posix/
+COPY 000-configure-stats.sh 001-create-citus-extension.sql 002-register-host.sh /docker-entrypoint-initdb.d/
 
 # add health check script
 COPY pg_healthcheck /
-COPY idmapd.conf /etc/
 
 # JPK TODO: REMEMBER TO ENABLE THIS AFTER UPGRADE OF DOCKER TO DOCKER-CE FROM DOCKER REPO
 # HEALTHCHECK --interval=4s --start-period=6s CMD ./pg_healthcheck
