@@ -4,7 +4,7 @@ metadata:
   name: citus-master-sset
   namespace: citus-cluster
 spec:
-  serviceName: citus-master
+  serviceName: citus-master-service
   selector:
     matchLabels:
       app: citus-master-app
@@ -23,7 +23,7 @@ spec:
         image: kubemaster:443/kubeuser/citus-image:latest
         imagePullPolicy: Always
         ports:
-          containerPort: 5432  
+          - containerPort: 5432  
         volumeMounts:
         - name: cluster-config-volume-storage
           mountPath: /etc/citus/cluster-nodes-data
@@ -31,7 +31,7 @@ spec:
         image: kubemaster:443/kubeuser/citus-k8s-member-manager-image:latest
         imagePullPolicy: Always
         ports:
-          containerPort: 1883
+          - containerPort: 1883
         volumeMounts:
           - name: cluster-config-volume-storage
             mountPath: /etc/citus/cluster-nodes-data

@@ -4,6 +4,7 @@ metadata:
   name: citus-worker-sset
   namespace: citus-cluster
 spec:
+  serviceName: citus-worker-service
   selector:
     matchLabels:
       app: citus-worker-app
@@ -22,7 +23,7 @@ spec:
         image: kubemaster:443/kubeuser/citus-image:latest
         imagePullPolicy: Always
         ports:
-          containerPort: 5432
+          - containerPort: 5432
         lifecycle:
           postStart:
             exec:
