@@ -27,8 +27,8 @@ spec:
         volumeMounts:
         - name: cluster-config-volume-storage
           mountPath: /etc/citus/cluster-nodes-data
-      - name: citus-k8s-member-manager
-        image: kubemaster:443/kubeuser/citus-k8s-member-manager-image:latest
+      - name: citus-k8s-sentinel
+        image: kubemaster:443/kubeuser/citus-k8s-sentinel-image:latest
         imagePullPolicy: Always
         ports:
           - containerPort: 1883
