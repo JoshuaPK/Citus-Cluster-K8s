@@ -19,6 +19,7 @@ RUN yum -y install https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x
     && yum -y install mosquitto \
     && yum -y install python-paho-mqtt \
     && yum -y install python-psycopg2 \
+    && yum -y install python-logbook \
     && mkdir /etc/citus \
     && mkdir /etc/citus/cluster-nodes-data
 
