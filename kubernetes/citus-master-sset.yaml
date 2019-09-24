@@ -14,27 +14,17 @@ spec:
       labels:
         app: citus-master-app
     spec:
-      volumes:
-        - name: cluster-config-volume-storage
-          persistentVolumeClaim:
-            claimName: cluster-config-volume-claim
       containers:
       - name: citus-master
         image: kubemaster:443/kubeuser/citus-image:latest
         imagePullPolicy: Always
         ports:
           - containerPort: 5432  
-        volumeMounts:
-        - name: cluster-config-volume-storage
-          mountPath: /etc/citus/cluster-nodes-data
       - name: citus-k8s-sentinel
         image: kubemaster:443/kubeuser/citus-k8s-sentinel-image:latest
         imagePullPolicy: Always
         ports:
           - containerPort: 1883
-        volumeMounts:
-          - name: cluster-config-volume-storage
-            mountPath: /etc/citus/cluster-nodes-data
       imagePullSecrets:
         - name: regcred
 

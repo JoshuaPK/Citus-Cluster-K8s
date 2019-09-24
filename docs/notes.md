@@ -122,3 +122,9 @@ https://github.com/citusdata/docker/issues/18
 
 1. How to set up the Citus cluster so that it communicates properly with other Citus nodes within the whole
    Kubernetes environment.
+
+# Update Sept 22 2019#
+
+Now that everything works, we need to change the volumes so that they don't use NFS- make this easy to deploy via helm chart where there may not be a NFS server.
+
+

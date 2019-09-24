@@ -14,10 +14,6 @@ spec:
       labels:
         app: citus-worker-app
     spec:
-      volumes:
-        - name: cluster-config-volume-storage
-          persistentVolumeClaim:
-            claimName: cluster-config-volume-claim
       containers:
       - name: citus-worker
         image: kubemaster:443/kubeuser/citus-image:latest
@@ -31,9 +27,6 @@ spec:
           preStop:
             exec:
               command: ["/bin/sh", "-c", "shutdown_script.sh"]
-        volumeMounts:
-        - name: cluster-config-volume-storage
-          mountPath: /etc/citus/cluster-nodes-data
       imagePullSecrets:
         - name: regcred
 
