@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: citus-master-sset
-  namespace: {{ .Values.k8sNamespace }} 
+  namespace: citus-cluster
 spec:
   serviceName: citus-master-service
   selector:

@@ -130,5 +130,5 @@ Now that everything works, we need to change the volumes so that they don't use 
 ## Adventures with Helm ##
 
 https://stackoverflow.com/questions/53086454/helm-error-no-available-release-name-found-same-error-different-problem
-
+https://scriptcrunch.com/helm-error-no-available-release/
 

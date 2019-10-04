@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: citus-worker-service
-  namespace: {{ .Values.k8sNamespace }}
+  namespace: citus-cluster
 spec:
   selector:
     app: citus-worker-app
