@@ -4,6 +4,8 @@
 
 replicaCount: 1
 
+k8sNamespace: citus-cluster
+
 image:
   repository: nginx
   tag: stable

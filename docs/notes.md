@@ -127,4 +127,8 @@ https://github.com/citusdata/docker/issues/18
 
 Now that everything works, we need to change the volumes so that they don't use NFS- make this easy to deploy via helm chart where there may not be a NFS server.
 
+## Adventures with Helm ##
+
+https://stackoverflow.com/questions/53086454/helm-error-no-available-release-name-found-same-error-different-problem
+
 
